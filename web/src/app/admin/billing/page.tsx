@@ -233,10 +233,9 @@ export default function BillingPage() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     // changeView intentionally omitted: it only calls stable state setters and the
     // effect runs at most once (when session_id/portal_return params are present).
-  }, [searchParams, router, refreshBilling, refreshLicense]);
+  }, [searchParams, router, refreshBilling, refreshLicense]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Poll every 15s while activating, up to 2 minutes, to detect when the license arrives.
   useEffect(() => {
@@ -248,7 +247,8 @@ export default function BillingPage() {
       if (requestInFlight) return;
       const raw = sessionStorage.getItem(BILLING_ACTIVATING_KEY);
       if (!raw || Number(raw) <= Date.now()) {
-        // Expired — stop waiting
+        // Expired — stop immediately without waiting for React cleanup
+        clearInterval(intervalId);
         sessionStorage.removeItem(BILLING_ACTIVATING_KEY);
         setIsActivating(false);
         return;
