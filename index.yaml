@@ -3,6 +3,65 @@ entries:
   onyx:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Add sandbox-proxy ServiceAccount annotation support for
+            IAM-backed managed services.
+        - kind: changed
+          description: Store Craft sandbox snapshots in the Onyx filestore instead
+            of requiring sandbox pods to write directly to S3.
+      category: Productivity
+      images: |
+        - name: webserver
+          image: docker.io/onyxdotapp/onyx-web-server:latest
+        - name: background
+          image: docker.io/onyxdotapp/onyx-backend:latest
+      licenses: MIT
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-06-11T14:16:40.975818962Z"
+    dependencies:
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: cloudnative-pg
+      repository: https://cloudnative-pg.github.io/charts
+      version: 0.26.0
+    - condition: opensearch.enabled
+      name: opensearch
+      repository: https://opensearch-project.github.io/helm-charts
+      version: 3.6.0
+    - alias: nginx
+      condition: nginx.enabled
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.13.3
+    - condition: redisOperator.enabled,redis.enabled
+      name: redis-operator
+      repository: https://ot-container-kit.github.io/helm-charts
+      version: 0.24.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://ot-container-kit.github.io/helm-charts
+      version: 0.16.6
+    - condition: minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      version: 5.4.0
+    - condition: codeInterpreter.enabled
+      name: code-interpreter
+      repository: https://onyx-dot-app.github.io/python-sandbox/
+      version: 0.4.3
+    description: A Helm chart for Kubernetes
+    digest: 44a1cae3b7a2b2dc443fea0769a96cf0dff08dc83e0ce15daf3015a277eadcde
+    home: https://www.onyx.app/
+    name: onyx
+    sources:
+    - https://github.com/onyx-dot-app/onyx
+    type: application
+    urls:
+    - https://tranzmatt.github.io/onyx/onyx-0.5.23.tgz
+    version: 0.5.23
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: '`configMap.ENABLE_PUBLIC_DOCS` flag (default off) gating the
             interactive API docs and schema. When unset, /openapi.json, /docs, and
@@ -2953,4 +3012,4 @@ entries:
     urls:
     - https://github.com/onyx-dot-app/onyx/releases/download/onyx-stack-0.2.4/onyx-stack-0.2.4.tgz
     version: 0.2.4
-generated: "2026-06-09T16:59:06.924115241Z"
+generated: "2026-06-11T14:16:40.947902134Z"
