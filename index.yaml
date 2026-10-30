@@ -3,6 +3,67 @@ entries:
   onyx:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update template comments to describe the sandbox image
+            prepuller and sandbox network policy in place. No functional changes.
+      category: Productivity
+      images: |
+        - name: webserver
+          image: docker.io/onyxdotapp/onyx-web-server:latest
+        - name: background
+          image: docker.io/onyxdotapp/onyx-backend:latest
+      licenses: MIT
+      org.opencontainers.image.source: https://github.com/onyx-dot-app/onyx
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-10-30T16:54:08.953847119Z"
+    dependencies:
+    - alias: postgresql
+      condition: postgresqlOperator.enabled,postgresql.enabled
+      name: cloudnative-pg
+      repository: https://cloudnative-pg.github.io/charts
+      version: 0.26.0
+    - condition: postgresql.installCRDs,postgresqlOperator.enabled,postgresql.enabled
+      name: onyx-cnpg-crds
+      repository: file://../onyx-cnpg-crds
+      version: 0.1.0
+    - condition: opensearch.enabled
+      name: opensearch
+      repository: https://opensearch-project.github.io/helm-charts
+      version: 3.6.0
+    - alias: nginx
+      condition: nginx.enabled
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.13.3
+    - condition: redisOperator.enabled,redis.enabled
+      name: redis-operator
+      repository: https://ot-container-kit.github.io/helm-charts
+      version: 0.24.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://ot-container-kit.github.io/helm-charts
+      version: 0.16.6
+    - condition: minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      version: 5.4.0
+    - condition: codeInterpreter.enabled
+      name: code-interpreter
+      repository: https://onyx-dot-app.github.io/python-sandbox/
+      version: 0.4.10
+    description: Onyx application and Craft sandbox deployment chart
+    digest: 2ac549a49487c25c7c2858a508ee2a6ae48cb868104f154af80304df16f7b07b
+    home: https://www.onyx.app/
+    name: onyx
+    sources:
+    - https://github.com/onyx-dot-app/onyx
+    type: application
+    urls:
+    - https://github.com/tranzmatt/onyx/releases/download/helm/onyx-0.9.27/onyx-0.9.27.tgz
+    version: 0.9.27
+  - annotations:
+      artifacthub.io/changes: |
         - kind: security
           description: Bump the code-interpreter subchart to 0.4.10, which updates
             Pillow, pypdf, cryptography, fpdf2, and certifi in its images.
@@ -4621,4 +4682,4 @@ entries:
     urls:
     - https://github.com/onyx-dot-app/onyx/releases/download/onyx-stack-0.2.4/onyx-stack-0.2.4.tgz
     version: 0.2.4
-generated: "2026-10-28T15:03:33.544346248Z"
+generated: "2026-10-30T16:54:08.9541255Z"
